@@ -6,7 +6,7 @@ import Step2Screen from './components/Step2Screen';
 import ResultScreen from './components/ResultScreen';
 import AnimatedBackground from './components/AnimatedBackground';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3001').replace(/\/$/, '');
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('welcome');
@@ -36,7 +36,7 @@ function App() {
     setCurrentScreen('result');
 
     try {
-      const response = await fetch(`${API_URL}/api/generate`, {
+      const response = await fetch(`${API_BASE_URL}/api/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(finalData),
