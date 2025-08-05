@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import WelcomeScreen from './components/WelcomeScreen';
-import Step0Screen from './components/Step0Screen'; // Импортируем новый экран
+import Step0Screen from './components/Step0Screen';
 import Step1Screen from './components/Step1Screen';
 import Step2Screen from './components/Step2Screen';
 import ResultScreen from './components/ResultScreen';
 import AnimatedBackground from './components/AnimatedBackground';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('welcome');
   const [workshopData, setWorkshopData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleStart = () => setCurrentScreen('step0'); // Теперь переход на Шаг 0
+  const handleStart = () => setCurrentScreen('step0');
   const handleReset = () => {
     setWorkshopData({});
     setCurrentScreen('welcome');
   };
 
-  // Новый обработчик для Шага 0
   const handleStep0Submit = (data) => {
     setWorkshopData({ step0: data });
     setCurrentScreen('step1');
@@ -35,7 +36,7 @@ function App() {
     setCurrentScreen('result');
 
     try {
-      const response = await fetch('http://localhost:3001/api/generate', {
+      const response = await fetch(`${API_URL}/api/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(finalData),
@@ -56,7 +57,7 @@ function App() {
 
   const renderScreen = () => {
     switch (currentScreen) {
-      case 'step0': return <Step0Screen onNext={handleStep0Submit} />; 
+      case 'step0': return <Step0Screen onNext={handleStep0Submit} />;
       case 'step1': return <Step1Screen onNext={handleStep1Submit} />;
       case 'step2': return <Step2Screen onNext={handleStep2Submit} />;
       case 'result': return <ResultScreen data={workshopData} isLoading={isLoading} onReset={handleReset} />;
