@@ -26,7 +26,7 @@ function App() {
     setCurrentScreen('result');
 
     try {
-      const response = await fetch('http://localhost:3001/api/generate', {
+      const response = await fetch('https://meta-idea-backend.onrender.com/api/generate', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(finalData),
